@@ -3,10 +3,10 @@ import { Icon } from '../components/Icons';
 import './HeroBackground.css';
 
 const HERO_MEDIA = [
-  { type: 'image', src: '/images/hero-1.jpg', alt: 'PES team at oil & gas facility' },
-  { type: 'image', src: '/images/hero-2.jpg', alt: 'Engineering design review meeting' },
-  { type: 'image', src: '/images/hero-3.jpg', alt: 'Pipeline construction site' },
-  { type: 'image', src: '/images/hero-4.jpg', alt: 'Procurement logistics warehouse' },
+  { type: 'image', src: '/images/hero-1.svg', alt: 'PES team at oil & gas facility' },
+  { type: 'image', src: '/images/hero-2.svg', alt: 'Engineering design review meeting' },
+  { type: 'image', src: '/images/hero-3.svg', alt: 'Pipeline construction site' },
+  { type: 'image', src: '/images/hero-4.svg', alt: 'Procurement logistics warehouse' },
 ];
 
 export function HeroBackground() {

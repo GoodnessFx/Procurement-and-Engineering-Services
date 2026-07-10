@@ -102,6 +102,7 @@ export const Icons = {
   menu: createIcon(['M3 12h18', 'M3 6h18', 'M3 18h18']),
   alert: createIcon(['M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z', 'M12 9v4', 'M12 17h.01']),
   paperPlane: createIcon(['M22 2L11 13', 'M22 2l-7 20-4-9-9-4 20-7z']),
+  badge: createIcon(['M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', 'M9 22V12l9-7', 'M12 14v4', 'M8 16h8']),
 };
 
 export function Icon({ name, className = '', ...props }) {
