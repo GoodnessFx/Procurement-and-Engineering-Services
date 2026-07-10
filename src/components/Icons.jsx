@@ -1,25 +1,49 @@
 import React from 'react';
 
-const createIcon = (paths, attrs = {}) => (props) => (
-  <svg
-    width={props.size || 24}
-    height={props.size || 24}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={props.strokeWidth || 2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...attrs}
-    {...props}
-    aria-hidden="true"
-    focusable="false"
-  >
-    {paths.map((path, i) => (
-      <path key={i} d={path} />
-    ))}
-  </svg>
-);
+const createIcon = (paths, attrs = {}) => (props) => {
+  const { dangerouslySetInnerHTML, ...restAttrs } = attrs;
+  
+  if (dangerouslySetInnerHTML) {
+    return (
+      <svg
+        width={props.size || 24}
+        height={props.size || 24}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={props.strokeWidth || 2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        {...restAttrs}
+        {...props}
+        aria-hidden="true"
+        focusable="false"
+        dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      />
+    );
+  }
+  
+  return (
+    <svg
+      width={props.size || 24}
+      height={props.size || 24}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={props.strokeWidth || 2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...attrs}
+      {...props}
+      aria-hidden="true"
+      focusable="false"
+    >
+      {paths.map((path, i) => (
+        <path key={i} d={path} />
+      ))}
+    </svg>
+  );
+};
 
 export const Icons = {
   procurement: createIcon(['M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z', 'M3.27 6.96 12 12.01 20.73 6.96', 'M12 22.08V12']),
