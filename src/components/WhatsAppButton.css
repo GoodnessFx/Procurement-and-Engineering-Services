@@ -1,0 +1,112 @@
+.whatsapp-button {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-whatsapp);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+}
+
+.whatsapp-button--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.whatsapp-button--pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius-full);
+  background: var(--color-whatsapp);
+  animation: whatsappPulse 2s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.whatsapp-button:hover {
+  background: var(--color-whatsapp-hover);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+  color: white;
+}
+
+.whatsapp-button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.whatsapp-button__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.whatsapp-button__text {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .whatsapp-button__text {
+    display: inline;
+  }
+}
+
+.whatsapp-button__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-button {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    justify-content: center;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+  }
+
+  .whatsapp-button__text {
+    display: inline;
+  }
+
+  .whatsapp-button__badge {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-button--pulse::after {
+    animation: none;
+  }
+}
