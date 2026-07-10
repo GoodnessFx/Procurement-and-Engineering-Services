@@ -3,33 +3,33 @@ import './HeroBackground.css';
 
 const HERO_MEDIA = [
   {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80',
-    alt: 'Engineers reviewing technical drawings on site',
+    type: 'video',
+    src: '/videos/hero-1.mp4',
+    alt: 'Engineers pointing to blueprints on site',
     transition: 'fade',
   },
   {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1920&q=80',
-    alt: 'Industrial equipment inspection at a processing facility',
+    type: 'video',
+    src: '/videos/hero-2.mp4',
+    alt: 'Aerial view of buildings under construction',
     transition: 'slide-left',
   },
   {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80',
-    alt: 'Procurement warehouse with organized industrial materials',
+    type: 'video',
+    src: '/videos/hero-3.mp4',
+    alt: 'Building frames at a construction site',
     transition: 'zoom',
   },
   {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&q=80',
-    alt: 'On-site consultation at an oil and gas facility',
+    type: 'video',
+    src: '/videos/hero-4.mp4',
+    alt: 'Workers checking blueprints at construction site',
     transition: 'slide-right',
   },
   {
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1581092335397-9583eb92d232?w=1920&q=80',
-    alt: 'Pipeline construction and maintenance',
+    type: 'video',
+    src: '/videos/hero-5.mp4',
+    alt: 'Workers pouring concrete on site',
     transition: 'fade',
   },
 ];
@@ -45,6 +45,7 @@ export function HeroBackground() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
+  const videoRefs = useRef({});
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -89,26 +90,47 @@ export function HeroBackground() {
     return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, [nextSlide, prefersReducedMotion]);
 
+  useEffect(() => {
+    Object.values(videoRefs.current).forEach((video) => {
+      if (video) {
+        if (video.dataset.index === String(currentIndex)) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      }
+    });
+  }, [currentIndex]);
+
   const currentMedia = HERO_MEDIA[currentIndex];
 
   return (
     <div className="hero-background" role="img" aria-label="PES project showcase">
       {prevIndex !== null && (
         <div className={`hero-background__slide hero-background__slide--out hero-background__slide--${HERO_MEDIA[prevIndex].transition}`} key={`prev-${prevIndex}`}>
-          <img
-            className="hero-background__image"
+          <video
+            className="hero-background__video"
             src={HERO_MEDIA[prevIndex].src}
-            alt={HERO_MEDIA[prevIndex].alt}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
           />
         </div>
       )}
 
       <div className={`hero-background__slide hero-background__slide--in hero-background__slide--${currentMedia.transition} ${isLoaded ? 'hero-background__slide--visible' : ''}`} key={`current-${currentIndex}`}>
-        <img
-          className="hero-background__image"
+        <video
+          className="hero-background__video"
+          ref={(el) => { videoRefs.current[currentIndex] = el; if (el) el.dataset.index = currentIndex; }}
           src={currentMedia.src}
-          alt={currentMedia.alt}
-          onLoad={() => setIsLoaded(true)}
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onCanPlay={() => setIsLoaded(true)}
+          aria-hidden="true"
         />
       </div>
 
