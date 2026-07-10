@@ -52,10 +52,8 @@ export function Footer() {
               <ul className="footer__list">
                 <li><a href="/about" className="footer__link">About Us</a></li>
                 <li><a href="/projects" className="footer__link">Projects</a></li>
-                <li><a href="/certifications" className="footer__link">Certifications</a></li>
-                <li><a href="/local-content" className="footer__link">Local Content</a></li>
-                <li><a href="/careers" className="footer__link">Careers</a></li>
-                <li><a href="/news" className="footer__link">News & Insights</a></li>
+                <li><a href="/insights" className="footer__link">News & Insights</a></li>
+                <li><a href="/faq" className="footer__link">FAQ</a></li>
               </ul>
             </nav>
 
@@ -63,10 +61,6 @@ export function Footer() {
               <h3 className="footer__heading">Resources</h3>
               <ul className="footer__list">
                 <li><a href="/faq" className="footer__link">FAQ</a></li>
-                <li><a href="/vendor-portal" className="footer__link">Vendor Portal</a></li>
-                <li><a href="/client-portal" className="footer__link">Client Portal</a></li>
-                <li><a href="/resources" className="footer__link">Technical Resources</a></li>
-                <li><a href="/compliance" className="footer__link">Compliance Hub</a></li>
                 <li><a href="/contact" className="footer__link">Contact Us</a></li>
               </ul>
             </nav>
@@ -110,8 +104,6 @@ export function Footer() {
             <ul className="footer__legal-list">
               <li><a href="/privacy" className="footer__legal-link">Privacy Policy</a></li>
               <li><a href="/terms" className="footer__legal-link">Terms of Service</a></li>
-              <li><a href="/cookies" className="footer__legal-link">Cookie Policy</a></li>
-              <li><a href="/accessibility" className="footer__legal-link">Accessibility</a></li>
             </ul>
             <p className="footer__registration">{companyRegistration}</p>
           </div>

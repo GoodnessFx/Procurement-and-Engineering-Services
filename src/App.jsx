@@ -9,6 +9,7 @@ import { Contact } from './pages/Contact';
 import { FAQPage } from './pages/FAQ';
 import { Privacy } from './pages/Privacy';
 import { Terms } from './pages/Terms';
+import { Insights } from './pages/Insights';
 
 function App() {
   initAnalytics();
@@ -25,6 +26,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/insights" element={<Insights />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
         </Routes>

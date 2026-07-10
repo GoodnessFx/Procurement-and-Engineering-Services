@@ -41,7 +41,7 @@ export function HeroBackground() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loadedMap, setLoadedMap] = useState({});
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const intervalRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -91,18 +91,27 @@ export function HeroBackground() {
   }, [nextSlide, prefersReducedMotion]);
 
   useEffect(() => {
-    Object.values(videoRefs.current).forEach((video) => {
-      if (video) {
-        if (video.dataset.index === String(currentIndex)) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
+    Object.entries(videoRefs.current).forEach(([idx, video]) => {
+      if (!video) return;
+      const i = parseInt(idx, 10);
+      if (i === currentIndex || i === prevIndex) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
       }
     });
-  }, [currentIndex]);
+  }, [currentIndex, prevIndex]);
+
+  const handleCanPlay = useCallback((index) => {
+    setLoadedMap((prev) => ({ ...prev, [index]: true }));
+    const video = videoRefs.current[index];
+    if (video && (index === currentIndex || index === prevIndex)) {
+      video.play().catch(() => {});
+    }
+  }, [currentIndex, prevIndex]);
 
   const currentMedia = HERO_MEDIA[currentIndex];
+  const allLoaded = loadedMap[currentIndex];
 
   return (
     <div className="hero-background" role="img" aria-label="PES project showcase">
@@ -110,26 +119,28 @@ export function HeroBackground() {
         <div className={`hero-background__slide hero-background__slide--out hero-background__slide--${HERO_MEDIA[prevIndex].transition}`} key={`prev-${prevIndex}`}>
           <video
             className="hero-background__video"
+            ref={(el) => { videoRefs.current[prevIndex] = el; }}
             src={HERO_MEDIA[prevIndex].src}
             muted
             loop
             playsInline
             preload="auto"
+            onCanPlay={() => handleCanPlay(prevIndex)}
             aria-hidden="true"
           />
         </div>
       )}
 
-      <div className={`hero-background__slide hero-background__slide--in hero-background__slide--${currentMedia.transition} ${isLoaded ? 'hero-background__slide--visible' : ''}`} key={`current-${currentIndex}`}>
+      <div className={`hero-background__slide hero-background__slide--in hero-background__slide--${currentMedia.transition} ${allLoaded ? 'hero-background__slide--visible' : ''}`} key={`current-${currentIndex}`}>
         <video
           className="hero-background__video"
-          ref={(el) => { videoRefs.current[currentIndex] = el; if (el) el.dataset.index = currentIndex; }}
+          ref={(el) => { videoRefs.current[currentIndex] = el; }}
           src={currentMedia.src}
           muted
           loop
           playsInline
           preload="auto"
-          onCanPlay={() => setIsLoaded(true)}
+          onCanPlay={() => handleCanPlay(currentIndex)}
           aria-hidden="true"
         />
       </div>
@@ -137,7 +148,7 @@ export function HeroBackground() {
       <div className="hero-background__scrim" aria-hidden="true" />
       <div className="hero-background__vignette" aria-hidden="true" />
 
-      {!isLoaded && (
+      {!allLoaded && (
         <div className="hero-background__loader" aria-hidden="true">
           <div className="hero-background__spinner" />
         </div>
