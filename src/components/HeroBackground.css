@@ -6,36 +6,39 @@
   background: var(--color-primary);
 }
 
-.hero-background__media {
+.hero-background__slide {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .hero-background__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 1s ease-in-out;
-  opacity: 0;
+  filter: saturate(0.85) contrast(1.05);
 }
 
-.hero-background__image.loaded {
-  opacity: 1;
-}
-
-.hero-background__overlay {
+.hero-background__scrim {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(27, 58, 75, 0.85) 0%,
-    rgba(27, 58, 75, 0.65) 50%,
-    rgba(27, 58, 75, 0.8) 100%
+    rgba(27, 58, 75, 0.88) 0%,
+    rgba(27, 58, 75, 0.6) 40%,
+    rgba(27, 58, 75, 0.75) 100%
   );
   z-index: 1;
+}
+
+.hero-background__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(20, 45, 58, 0.5) 100%
+  );
+  z-index: 2;
 }
 
 .hero-background__loader {
@@ -45,7 +48,7 @@
   align-items: center;
   justify-content: center;
   background: var(--color-primary);
-  z-index: 2;
+  z-index: 3;
 }
 
 .hero-background__spinner {
@@ -54,22 +57,25 @@
   border: 3px solid rgba(200, 150, 46, 0.3);
   border-top-color: var(--color-accent);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: heroSpin 1s linear infinite;
 }
 
-@keyframes spin {
+@keyframes heroSpin {
   to { transform: rotate(360deg); }
 }
 
 .hero-background__indicators {
   position: absolute;
-  bottom: var(--spacing-xl);
+  bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: var(--spacing-sm);
-  z-index: 3;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  gap: 10px;
+  z-index: 4;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-full);
 }
 
 .hero-background__indicator {
@@ -77,10 +83,10 @@
   height: 10px;
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.4);
-  border: none;
+  border: 2px solid transparent;
   padding: 0;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.3s ease;
 }
 
 .hero-background__indicator:hover {
@@ -90,20 +96,79 @@
 
 .hero-background__indicator--active {
   background: var(--color-accent);
-  transform: scale(1.25);
-  box-shadow: 0 0 12px rgba(200, 150, 46, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.3);
+  box-shadow: 0 0 14px rgba(200, 150, 46, 0.6);
 }
 
 .hero-background__indicator:focus-visible {
-  outline: 2px solid var(--color-focus);
+  outline: 2px solid white;
   outline-offset: 3px;
+}
+
+/* Fade transition */
+.hero-background__slide--fade {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+.hero-background__slide--fade.hero-background__slide--visible {
+  opacity: 1;
+}
+.hero-background__slide--fade.hero-background__slide--out {
+  opacity: 0;
+}
+
+/* Slide-left transition */
+.hero-background__slide--slide-left {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+.hero-background__slide--slide-left.hero-background__slide--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.hero-background__slide--slide-left.hero-background__slide--out {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+/* Slide-right transition */
+.hero-background__slide--slide-right {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+}
+.hero-background__slide--slide-right.hero-background__slide--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.hero-background__slide--slide-right.hero-background__slide--out {
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+/* Zoom transition */
+.hero-background__slide--zoom {
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 1.2s ease-in-out, transform 8s ease-out;
+}
+.hero-background__slide--zoom.hero-background__slide--visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.hero-background__slide--zoom.hero-background__slide--out {
+  opacity: 0;
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
   .hero-background__indicators {
-    bottom: var(--spacing-lg);
+    bottom: 20px;
+    padding: 6px 10px;
+    gap: 8px;
   }
-
   .hero-background__indicator {
     width: 8px;
     height: 8px;
@@ -111,8 +176,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-background__image {
-    transition: none;
+  .hero-background__slide--fade,
+  .hero-background__slide--slide-left,
+  .hero-background__slide--slide-right,
+  .hero-background__slide--zoom {
+    transition: opacity 0.3s ease;
+    transform: none !important;
   }
   .hero-background__spinner {
     animation: none;

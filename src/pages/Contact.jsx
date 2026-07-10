@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { WhatsAppButton } from '../components/WhatsAppButton';
+import { BackToTop } from '../components/BackToTop';
+import { CookieConsent } from '../components/CookieConsent';
 import { Icons } from '../components/Icons';
 import { SITE_CONFIG, CONTACT_INFO } from '../constants/content';
 import { trackFormSubmit } from '../utils/analytics';
@@ -64,10 +69,8 @@ export function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrors = {};
     let isValid = true;
-
     Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
       if (error) {
@@ -75,24 +78,17 @@ export function Contact() {
         isValid = false;
       }
     });
-
     setErrors(newErrors);
-    setTouched(
-      Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {})
-    );
-
+    setTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}));
     if (!isValid) return;
-
     setStatus('submitting');
     trackFormSubmit('contact');
-
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', phone: '', company: '', service: '', message: '' });
@@ -109,23 +105,26 @@ export function Contact() {
 
   return (
     <>
-      <header className="page-hero">
-        <div className="page-hero__bg" />
-        <div className="container">
-          <nav className="breadcrumb" aria-label="Breadcrumb">
-            <Link to="/" className="breadcrumb__item">Home</Link>
-            <Icons.chevronRight className="breadcrumb__separator" aria-hidden="true" />
-            <span className="breadcrumb__item breadcrumb__item--current">Contact</span>
-          </nav>
-          <h1 className="page-hero__title">Get in Touch</h1>
-          <p className="page-hero__subtitle">
-            Have a project in mind? Need procurement support or engineering expertise?
-            Our team is ready to discuss your requirements.
-          </p>
-        </div>
-      </header>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <Header />
+      <main id="main-content">
+        <header className="page-hero page-hero--dark">
+          <img className="page-hero__bg-image" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80" alt="" />
+          <div className="page-hero__bg-overlay" />
+          <div className="container">
+            <nav className="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
+              <Link to="/" className="breadcrumb__item">Home</Link>
+              <Icons.chevronRight className="breadcrumb__separator" aria-hidden="true" />
+              <span className="breadcrumb__item breadcrumb__item--current">Contact</span>
+            </nav>
+            <h1 className="page-hero__title page-hero__title--light">Get in Touch</h1>
+            <p className="page-hero__subtitle page-hero__subtitle--light">
+              Have a project in mind? Need procurement support or engineering expertise?
+              Our team is ready to discuss your requirements.
+            </p>
+          </div>
+        </header>
 
-      <main>
         <section className="contact section" aria-labelledby="contact-heading">
           <div className="container">
             <div className="contact__grid">
@@ -137,10 +136,7 @@ export function Contact() {
                 </p>
 
                 <div className="contact__methods">
-                  <a
-                    href={`tel:${SITE_CONFIG.phoneClean}`}
-                    className="contact__method"
-                  >
+                  <a href={`tel:${SITE_CONFIG.phoneClean}`} className="contact__method">
                     <div className="contact__method-icon">
                       <Icons.phoneIcon />
                     </div>
@@ -150,10 +146,7 @@ export function Contact() {
                     </div>
                   </a>
 
-                  <a
-                    href={`mailto:${SITE_CONFIG.email}`}
-                    className="contact__method"
-                  >
+                  <a href={`mailto:${SITE_CONFIG.email}`} className="contact__method">
                     <div className="contact__method-icon">
                       <Icons.mail />
                     </div>
@@ -217,120 +210,40 @@ export function Contact() {
                       <label htmlFor="name" className="form__label">
                         Full Name <span className="form__required" aria-hidden="true">*</span>
                       </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className={inputClass('name')}
-                        value={formData.name}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="John Doe"
-                        required
-                        autoComplete="name"
-                        aria-describedby={touched.name && errors.name ? 'name-error' : undefined}
-                        aria-invalid={touched.name && !!errors.name}
-                      />
-                      {touched.name && errors.name && (
-                        <p id="name-error" className="form__error" role="alert">
-                          {errors.name}
-                        </p>
-                      )}
+                      <input type="text" id="name" name="name" className={inputClass('name')} value={formData.name} onChange={handleChange} onBlur={handleBlur} placeholder="John Doe" required autoComplete="name" aria-describedby={touched.name && errors.name ? 'name-error' : undefined} aria-invalid={touched.name && !!errors.name} />
+                      {touched.name && errors.name && <p id="name-error" className="form__error" role="alert">{errors.name}</p>}
                     </div>
 
                     <div className="form__field">
                       <label htmlFor="email" className="form__label">
                         Email <span className="form__required" aria-hidden="true">*</span>
                       </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className={inputClass('email')}
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="john@company.com"
-                        required
-                        autoComplete="email"
-                        aria-describedby={touched.email && errors.email ? 'email-error' : undefined}
-                        aria-invalid={touched.email && !!errors.email}
-                      />
-                      {touched.email && errors.email && (
-                        <p id="email-error" className="form__error" role="alert">
-                          {errors.email}
-                        </p>
-                      )}
+                      <input type="email" id="email" name="email" className={inputClass('email')} value={formData.email} onChange={handleChange} onBlur={handleBlur} placeholder="john@company.com" required autoComplete="email" aria-describedby={touched.email && errors.email ? 'email-error' : undefined} aria-invalid={touched.email && !!errors.email} />
+                      {touched.email && errors.email && <p id="email-error" className="form__error" role="alert">{errors.email}</p>}
                     </div>
 
                     <div className="form__field">
-                      <label htmlFor="phone" className="form__label">
-                        Phone / WhatsApp
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        className={inputClass('phone')}
-                        value={formData.phone}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="+234 800 737 0000"
-                        autoComplete="tel"
-                        aria-describedby={touched.phone && errors.phone ? 'phone-error' : undefined}
-                        aria-invalid={touched.phone && !!errors.phone}
-                      />
-                      {touched.phone && errors.phone && (
-                        <p id="phone-error" className="form__error" role="alert">
-                          {errors.phone}
-                        </p>
-                      )}
+                      <label htmlFor="phone" className="form__label">Phone / WhatsApp</label>
+                      <input type="tel" id="phone" name="phone" className={inputClass('phone')} value={formData.phone} onChange={handleChange} onBlur={handleBlur} placeholder="+234 800 737 0000" autoComplete="tel" aria-describedby={touched.phone && errors.phone ? 'phone-error' : undefined} aria-invalid={touched.phone && !!errors.phone} />
+                      {touched.phone && errors.phone && <p id="phone-error" className="form__error" role="alert">{errors.phone}</p>}
                     </div>
 
                     <div className="form__field">
-                      <label htmlFor="company" className="form__label">
-                        Company / Organization
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        className={inputClass('company')}
-                        value={formData.company}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="ABC Energy Ltd"
-                        autoComplete="organization"
-                      />
+                      <label htmlFor="company" className="form__label">Company / Organization</label>
+                      <input type="text" id="company" name="company" className={inputClass('company')} value={formData.company} onChange={handleChange} onBlur={handleBlur} placeholder="ABC Energy Ltd" autoComplete="organization" />
                     </div>
 
                     <div className="form__field">
                       <label htmlFor="service" className="form__label">
                         Service Needed <span className="form__required" aria-hidden="true">*</span>
                       </label>
-                      <select
-                        id="service"
-                        name="service"
-                        className={inputClass('service')}
-                        value={formData.service}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required
-                        aria-describedby={touched.service && errors.service ? 'service-error' : undefined}
-                        aria-invalid={touched.service && !!errors.service}
-                      >
+                      <select id="service" name="service" className={inputClass('service')} value={formData.service} onChange={handleChange} onBlur={handleBlur} required aria-describedby={touched.service && errors.service ? 'service-error' : undefined} aria-invalid={touched.service && !!errors.service}>
                         <option value="">Select a service</option>
                         {SERVICE_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
                       </select>
-                      {touched.service && errors.service && (
-                        <p id="service-error" className="form__error" role="alert">
-                          {errors.service}
-                        </p>
-                      )}
+                      {touched.service && errors.service && <p id="service-error" className="form__error" role="alert">{errors.service}</p>}
                     </div>
                   </div>
 
@@ -338,41 +251,15 @@ export function Contact() {
                     <label htmlFor="message" className="form__label">
                       Message <span className="form__required" aria-hidden="true">*</span>
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      className={inputClass('message')}
-                      value={formData.message}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      rows={5}
-                      placeholder="Tell us about your project, timeline, and any specific requirements..."
-                      required
-                      aria-describedby={touched.message && errors.message ? 'message-error' : undefined}
-                      aria-invalid={touched.message && !!errors.message}
-                    />
-                    {touched.message && errors.message && (
-                      <p id="message-error" className="form__error" role="alert">
-                        {errors.message}
-                      </p>
-                    )}
+                    <textarea id="message" name="message" className={inputClass('message')} value={formData.message} onChange={handleChange} onBlur={handleBlur} rows={5} placeholder="Tell us about your project, timeline, and any specific requirements..." required aria-describedby={touched.message && errors.message ? 'message-error' : undefined} aria-invalid={touched.message && !!errors.message} />
+                    {touched.message && errors.message && <p id="message-error" className="form__error" role="alert">{errors.message}</p>}
                   </div>
 
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-lg contact-form__submit"
-                    disabled={status === 'submitting'}
-                  >
+                  <button type="submit" className="btn btn-primary btn-lg contact-form__submit" disabled={status === 'submitting'}>
                     {status === 'submitting' ? (
-                      <>
-                        <span className="btn__spinner" aria-hidden="true" />
-                        Sending...
-                      </>
+                      <><span className="btn__spinner" aria-hidden="true" /> Sending...</>
                     ) : (
-                      <>
-                        <Icons.paperPlane />
-                        Send Message
-                      </>
+                      <><Icons.paperPlane /> Send Message</>
                     )}
                   </button>
 
@@ -398,11 +285,10 @@ export function Contact() {
           </div>
         </section>
       </main>
-
-      <footer className="footer" />
-      <div className="whatsapp-button" />
-      <div className="back-to-top" />
-      <div className="cookie-consent" />
+      <Footer />
+      <WhatsAppButton />
+      <BackToTop />
+      <CookieConsent />
     </>
   );
 }

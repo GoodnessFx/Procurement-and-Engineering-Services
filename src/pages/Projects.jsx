@@ -5,8 +5,16 @@ import { WhatsAppButton } from '../components/WhatsAppButton';
 import { BackToTop } from '../components/BackToTop';
 import { CookieConsent } from '../components/CookieConsent';
 import { Icons } from '../components/Icons';
+import { MediaContainer } from '../components/MediaContainer';
 import { PROJECTS } from '../constants/content';
 import './Projects.css';
+
+const projectImages = {
+  'lng-train': 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=600&q=80',
+  'power-plant': 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=600&q=80',
+  'refinery-turnaround': 'https://images.unsplash.com/photo-1513828583688-c52646db42da?w=600&q=80',
+  'pipeline-project': 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&q=80',
+};
 
 export function Projects() {
   return (
@@ -14,16 +22,17 @@ export function Projects() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Header />
       <main id="main-content">
-        <header className="page-hero">
-          <div className="page-hero__bg" />
+        <header className="page-hero page-hero--dark">
+          <img className="page-hero__bg-image" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80" alt="" />
+          <div className="page-hero__bg-overlay" />
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
+            <nav className="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
               <Link to="/" className="breadcrumb__item">Home</Link>
               <Icons.chevronRight className="breadcrumb__separator" />
               <span className="breadcrumb__item breadcrumb__item--current">Projects</span>
             </nav>
-            <h1 className="page-hero__title">Our Projects</h1>
-            <p className="page-hero__subtitle">
+            <h1 className="page-hero__title page-hero__title--light">Our Projects</h1>
+            <p className="page-hero__subtitle page-hero__subtitle--light">
               A portfolio of successful engagements across West Africa's energy and infrastructure sectors.
             </p>
           </div>
@@ -34,10 +43,14 @@ export function Projects() {
             <div className="projects__grid">
               {PROJECTS.map((project) => (
                 <article key={project.id} className="project-card">
-                  <div className="project-card__image" aria-hidden="true">
-                    <div className="project-card__placeholder">
-                      <Icons.building />
-                    </div>
+                  <div className="project-card__image">
+                    <MediaContainer
+                      src={projectImages[project.id]}
+                      alt={project.title}
+                      aspectRatio="16/10"
+                      hover
+                      rounded={false}
+                    />
                     <div className="project-card__overlay">
                       <Link to={`/projects/${project.id}`} className="project-card__link">
                         <Icons.arrowRight />

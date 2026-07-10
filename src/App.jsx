@@ -16,11 +16,8 @@ function App() {
   console.log('[App] Rendering...');
 
   return (
-    <ErrorBoundary>
+      <ErrorBoundary>
       <BrowserRouter>
-        <div style={{ background: 'red', color: 'white', padding: '20px', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
-          APP IS RENDERING - If you see this, React is working!
-        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />

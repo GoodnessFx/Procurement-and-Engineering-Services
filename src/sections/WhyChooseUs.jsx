@@ -16,6 +16,7 @@ export function WhyChooseUs() {
     <section className="why-choose-us section" aria-labelledby="why-choose-us-heading">
       <div className="container">
         <header className="section-header">
+          <span className="section-eyebrow">Why PES</span>
           <h2 id="why-choose-us-heading" className="section-title">
             Why Choose PES
           </h2>

@@ -7,6 +7,7 @@ export function TrustIndicators() {
     <section className="trust-indicators section" aria-labelledby="trust-heading">
       <div className="container">
         <header className="section-header">
+          <span className="section-eyebrow">Our Track Record</span>
           <h2 id="trust-heading" className="section-title">
             Trusted Across West Africa
           </h2>

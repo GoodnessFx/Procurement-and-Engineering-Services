@@ -6,6 +6,7 @@ import { WhatsAppButton } from '../components/WhatsAppButton';
 import { BackToTop } from '../components/BackToTop';
 import { CookieConsent } from '../components/CookieConsent';
 import { Icons } from '../components/Icons';
+import { MediaContainer } from '../components/MediaContainer';
 import { SERVICES, SITE_CONFIG } from '../constants/content';
 import './Services.css';
 
@@ -18,6 +19,15 @@ const serviceIconMap = {
   manpower: Icons.manpower,
 };
 
+const serviceImages = {
+  procurement: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+  engineering: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
+  'project-management': 'https://images.unsplash.com/photo-1531973576160-7125cd663d86?w=800&q=80',
+  inspection: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80',
+  expediting: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80',
+  manpower: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
+};
+
 export function Services() {
   const [activeTab, setActiveTab] = useState(SERVICES[0].id);
 
@@ -26,21 +36,22 @@ export function Services() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Header />
       <main id="main-content">
-        <section className="page-hero" aria-labelledby="page-title">
-          <div className="page-hero__bg" aria-hidden="true" />
+        <header className="page-hero page-hero--dark">
+          <img className="page-hero__bg-image" src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1920&q=80" alt="" />
+          <div className="page-hero__bg-overlay" />
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
+            <nav className="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
               <Link to="/" className="breadcrumb__item">Home</Link>
               <Icons.chevronRight className="breadcrumb__separator" />
               <span className="breadcrumb__item breadcrumb__item--current">Services</span>
             </nav>
-            <h1 id="page-title" className="page-hero__title">Our Services</h1>
-            <p className="page-hero__subtitle">
+            <h1 className="page-hero__title page-hero__title--light">Our Services</h1>
+            <p className="page-hero__subtitle page-hero__subtitle--light">
               End-to-end procurement, engineering, and project support services
               delivered through a single point of accountability.
             </p>
           </div>
-        </section>
+        </header>
 
         <section className="services-overview section" aria-labelledby="services-overview-heading">
           <div className="container">
@@ -72,72 +83,81 @@ export function Services() {
               const IconComponent = serviceIconMap[service.id] || Icons.building;
               return (
                 <article
-                key={service.id}
-                id={`panel-${service.id}`}
-                role="tabpanel"
-                aria-labelledby={`tab-${service.id}`}
-                className={`service-detail ${activeTab !== service.id ? 'service-detail--hidden' : ''}`}
-                hidden={activeTab !== service.id}
-              >
-                <header className="service-detail__header">
-                  <div className="service-detail__icon" aria-hidden="true">
-                    <IconComponent />
+                  key={service.id}
+                  id={`panel-${service.id}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${service.id}`}
+                  className={`service-detail ${activeTab !== service.id ? 'service-detail--hidden' : ''}`}
+                  hidden={activeTab !== service.id}
+                >
+                  <div className="service-detail__hero">
+                    <MediaContainer
+                      src={serviceImages[service.id]}
+                      alt={`${service.title} service`}
+                      aspectRatio="21/9"
+                      rounded
+                      overlay
+                      overlayOpacity={0.3}
+                    />
                   </div>
-                  <div>
-                    <h2 id="service-detail-heading" className="service-detail__title">{service.title}</h2>
-                    <p className="service-detail__description">{service.description}</p>
-                  </div>
-                </header>
+                  <header className="service-detail__header">
+                    <div className="service-detail__icon" aria-hidden="true">
+                      <IconComponent />
+                    </div>
+                    <div>
+                      <h2 id="service-detail-heading" className="service-detail__title">{service.title}</h2>
+                      <p className="service-detail__description">{service.description}</p>
+                    </div>
+                  </header>
 
-                <div className="service-detail__content">
-                  <div className="service-detail__features">
-                    <h3 className="service-detail__section-title">Key Capabilities</h3>
-                    <ul className="service-detail__features-list">
-                      {service.features.map((feature, i) => (
-                        <li key={i} className="service-detail__feature">
-                          <Icons.check className="service-detail__feature-icon" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <div className="service-detail__content">
+                    <div className="service-detail__features">
+                      <h3 className="service-detail__section-title">Key Capabilities</h3>
+                      <ul className="service-detail__features-list">
+                        {service.features.map((feature, i) => (
+                          <li key={i} className="service-detail__feature">
+                            <Icons.check className="service-detail__feature-icon" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  <div className="service-detail__industries">
-                    <h3 className="service-detail__section-title">Industries Served</h3>
-                    <div className="service-detail__industries-list">
-                      {service.industries.map((industry) => (
-                        <span key={industry} className="badge badge-primary">{industry}</span>
-                      ))}
+                    <div className="service-detail__industries">
+                      <h3 className="service-detail__section-title">Industries Served</h3>
+                      <div className="service-detail__industries-list">
+                        {service.industries.map((industry) => (
+                          <span key={industry} className="badge badge-primary">{industry}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="service-detail__cta">
+                      <Link to="/contact" className="btn btn-primary btn-lg service-detail__cta-btn">
+                        {service.ctaText}
+                        <Icons.arrowRight />
+                      </Link>
+                      <a
+                        href={"https://wa.me/" + SITE_CONFIG.whatsappNumber + "?text=" + encodeURIComponent("Hello PES Services - " + service.title)}
+                        className="btn btn-whatsapp btn-lg service-detail__cta-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Icons.whatsapp />
+                        Discuss on WhatsApp
+                      </a>
                     </div>
                   </div>
-
-                  <div className="service-detail__cta">
-                    <Link to="/contact" className="btn btn-primary btn-lg service-detail__cta-btn">
-                      {service.ctaText}
-                      <Icons.arrowRight />
-                    </Link>
-                    <a
-                      href={"https://wa.me/" + SITE_CONFIG.whatsappNumber + "?text=" + encodeURIComponent("Hello PES Services - " + service.title)}
-                      className="btn btn-whatsapp btn-lg service-detail__cta-btn"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Icons.whatsapp />
-                      Discuss on WhatsApp
-                    </a>
-                  </div>
-                </div>
-              </article>
-            )})}
+                </article>
+              );
+            })}
           </div>
         </section>
 
         <section className="services-cta section" aria-labelledby="services-cta-heading">
           <div className="container">
             <div className="services-cta__card">
-              <h2 id="services-cta-heading" className="services-cta__title">
-                Need a Custom Solution?
-              </h2>
+              <h2 id="services-cta-heading" className="services-cta__title">Need a Custom Solution?</h2>
               <p className="services-cta__description">
                 Our services are modular — combine procurement, engineering, inspection, and logistics
                 into a single integrated package tailored to your project.
@@ -149,7 +169,7 @@ export function Services() {
                 </Link>
                 <a
                   href={`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(SITE_CONFIG.whatsappMessage)}`}
-                  className="btn btn-secondary btn-lg"
+                  className="btn btn-whatsapp btn-lg"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

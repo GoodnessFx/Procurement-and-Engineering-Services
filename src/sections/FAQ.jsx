@@ -11,9 +11,10 @@ export function FAQ() {
   };
 
   return (
-    <section className="faq section" aria-labelledby="faq-heading">
+    <section className="faq section" id="faq" aria-labelledby="faq-heading">
       <div className="container">
         <header className="section-header">
+          <span className="section-eyebrow">Support</span>
           <h2 id="faq-heading" className="section-title">
             Frequently Asked Questions
           </h2>
@@ -27,27 +28,33 @@ export function FAQ() {
             <div key={category.category} className="faq__category">
               <h3 className="faq__category-title">{category.category}</h3>
               <div className="faq__items">
-                {category.questions.map((faq, qIndex) => (
-                  <article key={`${catIndex}-${qIndex}`} className="faq__item">
-                    <button
-                      className={`faq__question ${openIndex === `${catIndex}-${qIndex}` ? 'faq__question--open' : ''}`}
-                      onClick={() => toggleFAQ(`${catIndex}-${qIndex}`)}
-                      aria-expanded={openIndex === `${catIndex}-${qIndex}`}
-                      aria-controls={`faq-answer-${catIndex}-${qIndex}`}
-                    >
-                      <span className="faq__question-text">{faq.question}</span>
-                      <Icons.chevronDown className="faq__icon" aria-hidden="true" />
-                    </button>
-                    <div
-                      id={`faq-answer-${catIndex}-${qIndex}`}
-                      className="faq__answer"
-                      role="region"
-                      aria-hidden={openIndex !== `${catIndex}-${qIndex}`}
-                    >
-                      <p className="faq__answer-text">{faq.answer}</p>
-                    </div>
-                  </article>
-                ))}
+                {category.questions.map((faq, qIndex) => {
+                  const faqId = `${catIndex}-${qIndex}`;
+                  const isOpen = openIndex === faqId;
+                  return (
+                    <article key={faqId} className={`faq__item ${isOpen ? 'faq__item--open' : ''}`}>
+                      <button
+                        className="faq__question"
+                        onClick={() => toggleFAQ(faqId)}
+                        aria-expanded={isOpen}
+                        aria-controls={`faq-answer-${faqId}`}
+                      >
+                        <span className="faq__question-text">{faq.question}</span>
+                        <span className={`faq__icon ${isOpen ? 'faq__icon--open' : ''}`}>
+                          <Icons.plus />
+                        </span>
+                      </button>
+                      <div
+                        id={`faq-answer-${faqId}`}
+                        className="faq__answer"
+                        role="region"
+                        aria-hidden={!isOpen}
+                      >
+                        <p className="faq__answer-text">{faq.answer}</p>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </div>
           ))}
@@ -55,7 +62,7 @@ export function FAQ() {
 
         <div className="faq__cta">
           <p className="faq__cta-text">Didn't find what you're looking for?</p>
-          <a href="/contact" className="btn btn-primary">
+          <a href="/contact" className="btn btn-primary btn-lg">
             Contact Us
             <Icons.chevronRight />
           </a>

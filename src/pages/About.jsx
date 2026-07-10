@@ -5,6 +5,7 @@ import { WhatsAppButton } from '../components/WhatsAppButton';
 import { BackToTop } from '../components/BackToTop';
 import { CookieConsent } from '../components/CookieConsent';
 import { Icons } from '../components/Icons';
+import { MediaContainer } from '../components/MediaContainer';
 import { SITE_CONFIG, TRUST_INDICATORS } from '../constants/content';
 import './About.css';
 
@@ -21,16 +22,17 @@ export function About() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <Header />
       <main id="main-content">
-        <header className="page-hero">
-          <div className="page-hero__bg" />
+        <header className="page-hero page-hero--dark">
+          <img className="page-hero__bg-image" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80" alt="" />
+          <div className="page-hero__bg-overlay" />
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
+            <nav className="breadcrumb breadcrumb--light" aria-label="Breadcrumb">
               <Link to="/" className="breadcrumb__item">Home</Link>
               <Icons.chevronRight className="breadcrumb__separator" />
               <span className="breadcrumb__item breadcrumb__item--current">About Us</span>
             </nav>
-            <h1 className="page-hero__title">About PES</h1>
-            <p className="page-hero__subtitle">
+            <h1 className="page-hero__title page-hero__title--light">About PES</h1>
+            <p className="page-hero__subtitle page-hero__subtitle--light">
               15+ years of procurement and engineering excellence across West Africa's energy sector.
             </p>
           </div>
@@ -40,9 +42,7 @@ export function About() {
           <div className="container">
             <div className="about-mission__grid">
               <div className="about-mission__content">
-                <h2 id="mission-heading" className="about-mission__title">
-                  Our Mission
-                </h2>
+                <h2 id="mission-heading" className="about-mission__title">Our Mission</h2>
                 <p className="about-mission__text">
                   To be the most trusted procurement and engineering partner for capital projects
                   across West Africa — delivering equipment, materials, and technical services that
@@ -58,10 +58,13 @@ export function About() {
                   <Icons.arrowRight />
                 </Link>
               </div>
-              <div className="about-mission__image" aria-hidden="true">
-                <div className="about-mission__placeholder">
-                  <Icons.building />
-                </div>
+              <div className="about-mission__image">
+                <MediaContainer
+                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80"
+                  alt="PES engineering team at work"
+                  aspectRatio="4/3"
+                  rounded
+                />
               </div>
             </div>
           </div>
@@ -70,6 +73,7 @@ export function About() {
         <section className="about-values section" aria-labelledby="values-heading">
           <div className="container">
             <header className="section-header">
+              <span className="section-eyebrow">Our Values</span>
               <h2 id="values-heading" className="section-title">Our Values</h2>
               <p className="section-subtitle">
                 The principles that guide every decision and interaction.
@@ -101,6 +105,7 @@ export function About() {
         <section className="about-leadership section" aria-labelledby="leadership-heading">
           <div className="container">
             <header className="section-header">
+              <span className="section-eyebrow">Our Team</span>
               <h2 id="leadership-heading" className="section-title">Leadership Team</h2>
               <p className="section-subtitle">
                 Experienced professionals with decades of combined industry experience.
@@ -115,9 +120,7 @@ export function About() {
                 { name: 'Chinedu Okonkwo', role: 'QA/QC Manager', bio: 'CSWIP Senior Welding Inspector & API 510/570/653 certified. Leads inspection programs for major turnarounds.', avatar: 'CO' },
               ].map((leader) => (
                 <article key={leader.name} className="leader-card">
-                  <div className="leader-card__avatar" aria-hidden="true">
-                    {leader.avatar}
-                  </div>
+                  <div className="leader-card__avatar" aria-hidden="true">{leader.avatar}</div>
                   <h3 className="leader-card__name">{leader.name}</h3>
                   <p className="leader-card__role">{leader.role}</p>
                   <p className="leader-card__bio">{leader.bio}</p>
@@ -130,6 +133,7 @@ export function About() {
         <section className="about-certifications section" aria-labelledby="cert-heading">
           <div className="container">
             <header className="section-header">
+              <span className="section-eyebrow">Quality Assured</span>
               <h2 id="cert-heading" className="section-title">Certifications & Compliance</h2>
               <p className="section-subtitle">
                 Independently verified quality, safety, and environmental management systems.
@@ -157,9 +161,7 @@ export function About() {
         <section className="about-cta section" aria-labelledby="about-cta-heading">
           <div className="container">
             <div className="about-cta__card">
-              <h2 id="about-cta-heading" className="about-cta__title">
-                Let's Work Together
-              </h2>
+              <h2 id="about-cta-heading" className="about-cta__title">Let's Work Together</h2>
               <p className="about-cta__description">
                 Whether you're planning a major capital project or need ongoing procurement support,
                 our team is ready to discuss how we can add value.
@@ -171,7 +173,7 @@ export function About() {
                 </Link>
                 <a
                   href={`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(SITE_CONFIG.whatsappMessage)}`}
-                  className="btn btn-secondary btn-lg"
+                  className="btn btn-whatsapp btn-lg"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
